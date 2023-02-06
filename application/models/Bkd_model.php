@@ -4,7 +4,10 @@ class Bkd_model extends CI_Model
 {
     public function getAllData()
     {
-        return $this->db->get('bkd')->result_array();
+        $this->db->select('*')
+            ->from('bkd')
+            ->join('dosen', 'dosen.id = bkd.id_dosen', 'left');
+        return $this->db->get('');
     }
 
     public function tambahData($data)

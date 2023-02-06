@@ -42,9 +42,9 @@ class Auth extends CI_Controller
                 ];
                 $this->session->set_userdata($data);
                 if ($user['role_id'] == '1') {
-                    redirect(base_url('admin'));
+                    redirect(base_url('admin/dashboard'));
                 } elseif ($user['role_id'] == '2') {
-                    echo 'ini adalah halaman dosen';
+                    redirect(base_url('dosen/dashboard'));
                 }
             } else {
                 $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Email Atau Password Salah</div>');
