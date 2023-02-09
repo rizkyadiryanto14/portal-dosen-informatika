@@ -52,7 +52,7 @@
            </li>
 
            <li class="nav-item">
-               <a class="nav-link" href="<?= base_url('admin/bkd') ?>">
+               <a class="nav-link" href="<?= base_url('admin/rps') ?>">
                    <i class="fas fa-fw fa-chart-area"></i>
                    <span>RPS</span></a>
            </li>

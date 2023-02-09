@@ -7,6 +7,9 @@ class Bkd extends CI_Controller
         parent::__construct();
         $this->load->model('Bkd_model');
         $this->load->model('Dosen_model');
+        if ($this->session->userdata('masuk') != true) {
+            show_404();
+        }
     }
 
     public function index()
@@ -47,13 +50,11 @@ class Bkd extends CI_Controller
             $file_bukti_pengabdian = $bukti_pengabdian['file_name'];
         }
 
-
         if (!empty($_FILES['penunjang'])) {
             $this->upload->do_upload('penunjang');
             $penunjang = $this->upload->data();
             $file_penunjang = $penunjang['file_name'];
         }
-
 
         if (!empty($_FILES['print_sister'])) {
             $this->upload->do_upload('print_sister');
@@ -76,10 +77,13 @@ class Bkd extends CI_Controller
             'print_sister'      => $file_print_sister
         );
 
-        // var_dump($data);
-        // die();
-
         $insert = $this->Bkd_model->tambahData($data);
+
+        //update status BKD
+        $this->db->where('id', $id_dosen);
+        $this->db->update('dosen', [
+            'bkd'   => '1'
+        ]);
         if ($insert) {
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Berhasil Di Tambahkan</div>');
             redirect(base_url('admin/bkd'));
@@ -87,31 +91,6 @@ class Bkd extends CI_Controller
             $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Data Gagal Di Tambahkan</div>');
             redirect(base_url('admin/bkd'));
         }
-
-
-        // if (!$this->upload->do_upload('bukti_pendidikan') and !$this->upload->do_upload('bukti_pengabdian')) {
-        //     $error = array('error' => $this->upload->display_errors());
-
-        //     $this->load->view('admin/bkd', $error);
-        // } else {
-        //     $upload_data = array('uploads' => $this->upload->data());
-
-        //     $data['bukti_pendidikan'] = $upload_data['uploads']['file_name'];
-
-
-
-        //     var_dump($data);
-        //     die();
-        //     $insert = $this->Bkd_model->tambahData($data);
-
-        //     if ($insert) {
-        //         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Berhasil Di Tambahkan</div>');
-        //         redirect(base_url('admin/bkd'));
-        //     } else {
-        //         $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Data Gagal Di Tambahkan</div>');
-        //         redirect(base_url('admin/bkd'));
-        //     }
-        // }
     }
 
     public function edit_data()

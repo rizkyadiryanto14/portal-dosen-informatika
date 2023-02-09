@@ -40,7 +40,7 @@ class Auth extends CI_Controller
                     'email' => $user['email'],
                     'role'  => $user['role_id']
                 ];
-                $this->session->set_userdata($data);
+                $this->session->set_userdata('masuk', $data, TRUE);
                 if ($user['role_id'] == '1') {
                     redirect(base_url('admin/dashboard'));
                 } elseif ($user['role_id'] == '2') {
@@ -58,9 +58,35 @@ class Auth extends CI_Controller
 
     public function logout()
     {
-        $this->session->unset_userdata('email');
-        $this->session->unset_userdata('role_id');
-        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Anda telah Logout</div>');
+        $this->session->sess_destroy();
         redirect(base_url('auth'));
+    }
+
+    public function Register()
+    {
+        $nama       = $this->input->post('nama');
+        $nidn       = $this->input->post('nidn');
+        $password   = $this->input->post('password');
+        $password2  = $this->input->post('password2');
+
+        if ($password != $password2) {
+            $this->session->set_flashdata('message', 'password dan konfirmasi password tidak sama');
+            redirect('auth');
+        } else {
+            $data = array(
+                'nama'      => $nama,
+                'nidn'      => $nidn,
+                'password'  => $password
+            );
+
+            $insertData = $this->db->insert('users', $data);
+            if ($insertData) {
+                $this->session->set_flashdata('message', 'Registrasi Berhasil');
+                redirect(base_url('auth'));
+            } else {
+                $this->session->set_flashdata('message', 'Gagal Registrasi');
+                redirect(base_url('auth'));
+            }
+        }
     }
 }

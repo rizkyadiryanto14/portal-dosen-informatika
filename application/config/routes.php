@@ -20,9 +20,15 @@ $route['dosen/list']    = 'Admin/Dosen';
 $route['tambahDosen']   = 'Admin/Dosen/tambahdata';
 //bkd
 $route['admin/bkd'] = 'Admin/Bkd';
+$route['admin/rps'] = 'Admin/Rps';
 $route['tambahData'] = 'Admin/Bkd/tambah';
 $route['editData']   = 'Admin/Bkd/edit_data';
 $route['hapusData']  = 'Admin/Bkd/hapus_data';
 //end bkd
+
+// rps
+$route['tambahRPS'] = 'Admin/Rps/tambah';
+
+// end rps
 
 $route['dosen/dashboard'] = 'Dosen/Dashboard';
